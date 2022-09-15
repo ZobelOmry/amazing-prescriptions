@@ -1,25 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import DrugSearch from "./drug-search/drug-search";
 
-function App() {
+import "./app.scss";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div class="app-title">Drug Prescription App</div>
+      <div className="app-content">
+        <DrugSearch></DrugSearch>
+      </div>
     </div>
   );
 }
-
-export default App;
