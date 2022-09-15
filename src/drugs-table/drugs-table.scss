@@ -1,0 +1,14 @@
+.drugs-table {
+  padding-top: 28px;
+  width: 100%;
+
+  .delete-icon {
+    color: grey;
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+      color: red;
+    }
+  }
+}

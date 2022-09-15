@@ -16,6 +16,7 @@ export default function DrugSearch(props) {
 
   // TODO: debounce and extract to util
   const onSearch = async (searchText) => {
+    setValue(searchText);
     const rawDrugList = await fetch(`${DRUG_SEARCH_API_URL}${searchText}`);
     const drugList = await rawDrugList.json();
     const drugSearchOptions = drugList[DRUG_NAMES_INDEX].map((drug) => ({
@@ -32,6 +33,7 @@ export default function DrugSearch(props) {
           options={options}
           onSelect={setValue}
           onSearch={onSearch}
+          value={value}
           style={{ width: "100%" }}
           placeholder="Search for a drug"
         >
@@ -44,21 +46,23 @@ export default function DrugSearch(props) {
           />
         </AutoComplete>
       </div>
-      <Button
-        type="primary"
-        style={{
-          borderRadius: 4,
-          height: "100%",
-          marginTop: 2,
-        }}
-        icon={<PlusOutlined />}
-        onClick={() => {
-          onAddDrug(value);
-          setValue("");
-        }}
-      >
-        Add Drug
-      </Button>
+      <div>
+        <Button
+          type="primary"
+          style={{
+            borderRadius: 4,
+            height: "100%",
+            marginTop: 2,
+          }}
+          icon={<PlusOutlined />}
+          onClick={() => {
+            onAddDrug(value);
+            setValue("");
+          }}
+        >
+          Add Drug
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,18 +1,41 @@
 import React, { useState } from "react";
 import DrugSearch from "./drug-search/drug-search";
+import DrugsTable from "./drugs-table/drugs-table";
+import moment from "moment";
+
+import { DATE_FORMAT } from "./constants";
 
 import "./app.scss";
 
+const DEFAULT_PRESCRIPTION_DATE = "2016/05/12";
+
 export default function App() {
-  const [drugList, setDrugList] = useState("");
+  const [drugList, setDrugList] = useState([]);
 
   const onAddDrug = (drug) => {
     if (!drug) {
       return;
     }
 
+    const drugObject = {
+      name: drug,
+      date: moment(DEFAULT_PRESCRIPTION_DATE, DATE_FORMAT),
+    };
     // TODO: consider adding to local storage
-    setDrugList((drugList) => [...new Set([...drugList, drug])]);
+    setDrugList((drugList) => [...drugList, drugObject]);
+  };
+
+  const onDelete = (index) => {
+    const newDrugList = [...drugList];
+    newDrugList.splice(index, 1);
+
+    setDrugList(newDrugList);
+  };
+
+  const onChangeDate = (index, date) => {
+    const newDrugList = [...drugList];
+    newDrugList[index].date = date;
+    setDrugList(newDrugList);
   };
 
   return (
@@ -20,7 +43,13 @@ export default function App() {
       <div className="app-title">Drug Prescription App</div>
       <div className="app-content">
         <DrugSearch onAddDrug={onAddDrug}></DrugSearch>
-        {drugList}
+        {drugList.length > 0 && (
+          <DrugsTable
+            drugList={drugList}
+            onDelete={onDelete}
+            onChangeDate={onChangeDate}
+          ></DrugsTable>
+        )}
       </div>
     </div>
   );
