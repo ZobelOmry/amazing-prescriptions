@@ -19,8 +19,14 @@ export default function DrugSearch(props) {
 
   // TODO: debounce and extract to util
   const onSearch = async (searchText) => {
-    const rawDrugList = await fetch(getDrugSearchUrl(searchText));
-    const drugList = await rawDrugList.json();
+    const drugListResponse = await fetch(getDrugSearchUrl(searchText));
+
+    if (!drugListResponse.ok) {
+      // TODO: add alert
+      return;
+    }
+
+    const drugList = await drugListResponse.json();
     const drugSearchOptions = drugList[DRUG_NAMES_INDEX].map((drug, index) => ({
       value: drug,
       codes: drugList[DRUG_CODES_INDEX][DRUG_CODES_KEY][index],

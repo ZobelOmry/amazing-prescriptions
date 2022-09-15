@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DrugSearch from "./drug-search/drug-search";
 import DrugsTable from "./prescription-table/prescription-table";
+import DrugInteractionAlerts from "./drug-interaction-alerts/drug-interaction-alerts";
 import moment from "moment";
 import { isEmpty } from "lodash";
 
@@ -53,6 +54,7 @@ export default function App() {
             onChangeDate={onChangeDate}
           ></DrugsTable>
         )}
+        <DrugInteractionAlerts drugList={drugList}></DrugInteractionAlerts>
       </div>
     </div>
   );
