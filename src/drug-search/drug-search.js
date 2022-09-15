@@ -8,10 +8,13 @@ const DRUG_NAMES_INDEX = 1;
 const DRUG_SEARCH_API_URL =
   "https://clinicaltables.nlm.nih.gov/api/rxterms/v3/search?terms=";
 
-export default function DrugSearch() {
+export default function DrugSearch(props) {
+  const { onAddDrug } = props;
+
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState("");
 
+  // TODO: debounce and extract to util
   const onSearch = async (searchText) => {
     const rawDrugList = await fetch(`${DRUG_SEARCH_API_URL}${searchText}`);
     const drugList = await rawDrugList.json();
@@ -24,7 +27,7 @@ export default function DrugSearch() {
 
   return (
     <div className="drug-search">
-      <div class="search-wrapper">
+      <div className="search-wrapper">
         <AutoComplete
           options={options}
           onSelect={setValue}
@@ -49,6 +52,10 @@ export default function DrugSearch() {
           marginTop: 2,
         }}
         icon={<PlusOutlined />}
+        onClick={() => {
+          onAddDrug(value);
+          setValue("");
+        }}
       >
         Add Drug
       </Button>
