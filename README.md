@@ -13,9 +13,16 @@ It's as easy as pie.
 2. Add the drug to the prescription list.
 3. (optional) Set a date for the prescription.
 4. You will automatically get alerts for harmful drug interactions! Amazing!!
+5. All the prescriptions are saved in your local storage (so it will persist between refreshes).
 
 **We are not responsible for any real drug problems or drug abuse.
 
+![walterWhite](https://user-images.githubusercontent.com/44494570/190483145-5dd8b55a-ae11-44f4-b3fe-f6591164007f.gif)
+
+
+Some editorial comments:
+* I've used antd as a UI library - therefore the design is not exactly as in the wireframes (I've taken some liberty with it).
+* The drug search returns more than one drug code per drug - I've used only the first one to check for drug interactions.
 
 
 ## Available Scripts
