@@ -1,10 +1,9 @@
 import { Table, DatePicker } from "antd";
 import React from "react";
-import moment from "moment";
 import { CloseCircleFilled } from "@ant-design/icons";
 import { DATE_FORMAT } from "../constants";
 
-import "./drugs-table.scss";
+import "./prescription-table.scss";
 
 const getColumns = (onDelete, onChangeDate) => [
   {

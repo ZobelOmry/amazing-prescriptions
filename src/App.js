@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DrugSearch from "./drug-search/drug-search";
-import DrugsTable from "./drugs-table/drugs-table";
+import DrugsTable from "./prescription-table/prescription-table";
 import moment from "moment";
 
 import { DATE_FORMAT } from "./constants";
