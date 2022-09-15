@@ -1,12 +1,15 @@
 import { AutoComplete, Input, Button } from "antd";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { PlusOutlined } from "@ant-design/icons";
+import { debounce } from "lodash";
 
 import "./drug-search.scss";
 
 const DRUG_NAMES_INDEX = 1;
 const DRUG_CODES_INDEX = 2;
 const DRUG_CODES_KEY = "RXCUIS";
+
+const DEBOUNCE_DELAY = 1000;
 
 const getDrugSearchUrl = (drugName) =>
   `https://clinicaltables.nlm.nih.gov/api/rxterms/v3/search?terms=${drugName}&ef=RXCUIS`;
@@ -17,8 +20,7 @@ export default function DrugSearch(props) {
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState({});
 
-  // TODO: debounce and extract to util
-  const onSearch = async (searchText) => {
+  const fetchDrugsSearch = async (searchText) => {
     const drugListResponse = await fetch(getDrugSearchUrl(searchText));
 
     if (!drugListResponse.ok) {
@@ -37,6 +39,8 @@ export default function DrugSearch(props) {
 
     setOptions(!searchText ? [] : drugSearchOptions);
   };
+
+  const onSearch = useCallback(debounce(fetchDrugsSearch, DEBOUNCE_DELAY), []);
 
   return (
     <div className="drug-search">
