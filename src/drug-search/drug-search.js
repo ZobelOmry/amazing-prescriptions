@@ -22,7 +22,10 @@ export default function DrugSearch(props) {
     const drugListResponse = await fetch(getDrugSearchUrl(searchText));
 
     if (!drugListResponse.ok) {
-      // TODO: add alert
+      // Can be handled better - but left out of scope
+      // I would have a global error handler that would show a toast
+      console.error("Drug search failed - please try again later");
+
       return;
     }
 

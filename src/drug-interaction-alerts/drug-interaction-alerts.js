@@ -25,6 +25,7 @@ export default function DrugInteractionAlerts(props) {
 
   const addInteraction = (interaction) => {
     if (interactionList.some((elem) => elem.message === interaction.message)) {
+      // don't add duplicates
       return;
     }
 
@@ -47,21 +48,27 @@ export default function DrugInteractionAlerts(props) {
       );
 
       if (!interactionsResponse.ok) {
-        // TODO: add alert
+        // Can be handled better - but left out of scope
+        // I would have a global error handler that would show a toast
+        console.error("Drug search failed - please try again later");
+
         return;
       }
       const interactions = await interactionsResponse.json();
-      if (interactions.fullInteractionTypeGroup?.length > 0) {
-        interactions.fullInteractionTypeGroup.forEach((interaction) => {
-          interaction.fullInteractionType.forEach((interactionType) => {
-            interactionType.interactionPair.forEach((interactionPair) => {
-              const { description, severity } = interactionPair;
 
-              addInteraction({ message: description, severity });
-            });
+      if (interactions.fullInteractionTypeGroup?.length < 0) {
+        return;
+      }
+
+      interactions.fullInteractionTypeGroup?.forEach((interaction) => {
+        interaction.fullInteractionType?.forEach((interactionType) => {
+          interactionType.interactionPair?.forEach((interactionPair) => {
+            const { description, severity } = interactionPair;
+
+            addInteraction({ message: description, severity });
           });
         });
-      }
+      });
     };
 
     getDrugInteractions();

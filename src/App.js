@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DrugSearch from "./drug-search/drug-search";
 import DrugsTable from "./prescription-table/prescription-table";
 import DrugInteractionAlerts from "./drug-interaction-alerts/drug-interaction-alerts";
@@ -10,9 +10,28 @@ import { DATE_FORMAT } from "./constants";
 import "./app.scss";
 
 const DEFAULT_PRESCRIPTION_DATE = "2016/05/12";
+const LOCAL_STORAGE_KEY = "drugList";
+
+const getDataFromLocalStorage = () => {
+  const storeData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  return storeData.map((drug) => {
+    return {
+      ...drug,
+      date: moment(drug.date),
+    };
+  });
+};
+
+const saveDataToLocalStorage = (drugList) => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(drugList));
+};
 
 export default function App() {
-  const [drugList, setDrugList] = useState([]);
+  const [drugList, setDrugList] = useState(getDataFromLocalStorage() || []);
+
+  useEffect(() => {
+    saveDataToLocalStorage(drugList);
+  }, [drugList]);
 
   const onAddDrug = (drug) => {
     if (!drug || isEmpty(drug)) {
@@ -25,7 +44,6 @@ export default function App() {
       date: moment(DEFAULT_PRESCRIPTION_DATE, DATE_FORMAT),
     };
 
-    // TODO: consider adding to local storage
     setDrugList((drugList) => [...drugList, drugObject]);
   };
 
