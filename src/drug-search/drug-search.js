@@ -5,22 +5,25 @@ import { PlusOutlined } from "@ant-design/icons";
 import "./drug-search.scss";
 
 const DRUG_NAMES_INDEX = 1;
-const DRUG_SEARCH_API_URL =
-  "https://clinicaltables.nlm.nih.gov/api/rxterms/v3/search?terms=";
+const DRUG_CODES_INDEX = 2;
+const DRUG_CODES_KEY = "RXCUIS";
+
+const getDrugSearchUrl = (drugName) =>
+  `https://clinicaltables.nlm.nih.gov/api/rxterms/v3/search?terms=${drugName}&ef=RXCUIS`;
 
 export default function DrugSearch(props) {
   const { onAddDrug } = props;
 
   const [options, setOptions] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState({});
 
   // TODO: debounce and extract to util
   const onSearch = async (searchText) => {
-    setValue(searchText);
-    const rawDrugList = await fetch(`${DRUG_SEARCH_API_URL}${searchText}`);
+    const rawDrugList = await fetch(getDrugSearchUrl(searchText));
     const drugList = await rawDrugList.json();
-    const drugSearchOptions = drugList[DRUG_NAMES_INDEX].map((drug) => ({
+    const drugSearchOptions = drugList[DRUG_NAMES_INDEX].map((drug, index) => ({
       value: drug,
+      codes: drugList[DRUG_CODES_INDEX][DRUG_CODES_KEY][index],
     }));
 
     setOptions(!searchText ? [] : drugSearchOptions);
@@ -31,9 +34,9 @@ export default function DrugSearch(props) {
       <div className="search-wrapper">
         <AutoComplete
           options={options}
-          onSelect={setValue}
+          onSelect={(val, option) => setValue(option)}
           onSearch={onSearch}
-          value={value}
+          value={value.value}
           style={{ width: "100%" }}
           placeholder="Search for a drug"
         >
@@ -57,7 +60,7 @@ export default function DrugSearch(props) {
           icon={<PlusOutlined />}
           onClick={() => {
             onAddDrug(value);
-            setValue("");
+            setValue({});
           }}
         >
           Add Drug

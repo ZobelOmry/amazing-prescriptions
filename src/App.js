@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DrugSearch from "./drug-search/drug-search";
 import DrugsTable from "./prescription-table/prescription-table";
 import moment from "moment";
+import { isEmpty } from "lodash";
 
 import { DATE_FORMAT } from "./constants";
 
@@ -13,14 +14,16 @@ export default function App() {
   const [drugList, setDrugList] = useState([]);
 
   const onAddDrug = (drug) => {
-    if (!drug) {
+    if (!drug || isEmpty(drug)) {
       return;
     }
 
     const drugObject = {
-      name: drug,
+      name: drug.value,
+      codes: drug.codes,
       date: moment(DEFAULT_PRESCRIPTION_DATE, DATE_FORMAT),
     };
+
     // TODO: consider adding to local storage
     setDrugList((drugList) => [...drugList, drugObject]);
   };
