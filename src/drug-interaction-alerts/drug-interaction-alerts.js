@@ -39,6 +39,7 @@ export default function DrugInteractionAlerts(props) {
 
   useEffect(() => {
     const getDrugInteractions = async () => {
+      setInteractionList([]);
       if (drugCodes.length === 0) {
         return;
       }
@@ -50,13 +51,18 @@ export default function DrugInteractionAlerts(props) {
       if (!interactionsResponse.ok) {
         // Can be handled better - but left out of scope
         // I would have a global error handler that would show a toast
-        console.error("Drug search failed - please try again later");
+        console.error(
+          "Drug interactions search failed - please try again later"
+        );
 
         return;
       }
       const interactions = await interactionsResponse.json();
 
-      if (interactions.fullInteractionTypeGroup?.length < 0) {
+      if (
+        !interactions.fullInteractionTypeGroup ||
+        interactions.fullInteractionTypeGroup.length === 0
+      ) {
         return;
       }
 
@@ -78,6 +84,7 @@ export default function DrugInteractionAlerts(props) {
     <div className="drug-interaction-alerts">
       {interactionList.map((interaction) => (
         <Alert
+          key={interaction.message}
           message={interaction.message}
           type={severityMap[interaction.severity]}
           showIcon
