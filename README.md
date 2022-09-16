@@ -24,6 +24,9 @@ Some editorial comments:
 * I've used antd as a UI library - therefore the design is not exactly as in the wireframes (I've taken some liberty with it).
 * The drug search returns more than one drug code per drug - I've used only the first one to check for drug interactions.
 * I haven't been able to see any severities on drug interactions other than N/A - I did prepare an "AC preparation" for other severities.
+* I create the project using `create-react-app` because react.js is my go to, and `create-react-app` is an easy way to bootstrap a react app.
+* This app has no need for presistancy or any other feature that a backend server is a must for - therefore I've decided to encapsulate all of the logic in the client.
+
 
 
 ## Instructions
