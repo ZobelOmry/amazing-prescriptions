@@ -26,12 +26,13 @@ Some editorial comments:
 * I haven't been able to see any severities on drug interactions other than N/A - I did prepare an "AC preparation" for other severities.
 
 
-## Available Scripts
+## Instructions
 
-In the project directory, you can run:
+1. Clone the repo locally
+2. `npm i`
+3. `npm start` and see the magic happen [http://localhost:3000](http://localhost:3000)
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+![image](https://user-images.githubusercontent.com/44494570/190622488-33b680a0-5621-48f6-8ab2-59f73c98355c.png)
 
